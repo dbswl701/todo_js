@@ -2,7 +2,7 @@
 // write 아이콘 클릭 시 수정할 수 있어야 함 -> text가 아니라 input으로 변경? -> prompt 사용!
 // delete 아이콘 클릭 시 section 삭제
 
-// querySelector vs getElementByTagName
+// querySelector vs getElementByTagName -> 차이 찾아보기
 
 // 아 일일이 class 주는거 귀찮은데 그냥 querySelector 쓰고 그냥 main>section>button 이렇게 쓰면 안되나?
 const $add_btn = document.querySelector("header > button"); // 투두 추가 버튼
@@ -11,7 +11,7 @@ const $main = document.querySelector("main"); // 생성한 투두(section)를 �
 
 // todo 저장할 배열 생성
 let todos = [];
-console.log(todos);
+
 // localStorage에 저장하는 함수
 function saveLocalStorage() {
   localStorage.setItem('todos', JSON.stringify(todos));
@@ -19,12 +19,9 @@ function saveLocalStorage() {
 
 // todo 처음 생성해서 배열에 저장하는 함수 -> 처음에 생성하면 무조건 checked 는 false
 function add_todo(text) {
-  console.log(text);
-  console.log(todos); 
-  if (todos === null) todos = [];
-  todos.push({text, checked: false }) // 전역에 전역변수로 let todos = []; 이렇게 선언 및 초기화 해줬는데 왜 출력하면 null 이 나오지...?!?!
-  console.log($main.children);
-  console.log(Array.from($main.children));
+  // if (todos === null) todos = []; // 전역에 전역변수로 let todos = []; 이렇게 선언 및 초기화 해줬는데 왜 출력하면 null 이 나오지...?!?!
+  todos.push({text, checked: false });
+
   // localStorage에 저장하는 함수
   saveLocalStorage();
 }
@@ -38,9 +35,7 @@ function toggle_todo(section) {
 }
 
 function delete_todo(section) {
-  console.log($main.children);
   const child_index = Array.from($main.children).indexOf(section);
-  console.log(child_index);
   todos.splice(child_index, 1);
   saveLocalStorage();
 }
@@ -56,8 +51,6 @@ function modify_todo(section, text) {
 todos = JSON.parse(localStorage.getItem('todos'));
 
 $add_btn.addEventListener('click', () => {
-  // 너무... 길다...?
-
   // 입력 받기
   const input = prompt('새로운 TODO를 입력하세요.');
 
@@ -73,12 +66,13 @@ $add_btn.addEventListener('click', () => {
 
 
 // todos를 map으로 돌면서 todos의 요소마다 print 함수 호출하기
-console.log(todos);
 todos.map((todo) => print(todo.text, todo.checked));
 
 
 // todos(localStorage에서 꺼내온 값)를 보고 출력
 function print(text, checked) {
+  // 너무... 길다...?
+
   // section 생성
   const $section = document.createElement('section');
 
@@ -127,14 +121,13 @@ function print(text, checked) {
 
     // 입력 재할당
     $p.textContent = modify;
-    modify_todo($section, modify);
+    modify_todo($section, modify); // localStorage에서 수정
   })
 
   // delete icon 눌렀을 떄 -> 해당 section 삭제
   $icon_delete.addEventListener('click', () => {
-    // 해당 section과 main의 연결 끊기
-    delete_todo($section);
-    $main.removeChild($section);
+    delete_todo($section); // localStorage에서 삭제
+    $main.removeChild($section); // 해당 section과 main의 연결 끊기
   })
 
   // img 각각 section_icons에 연결
