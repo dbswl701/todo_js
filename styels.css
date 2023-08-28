@@ -52,7 +52,12 @@ section {
   gap: 10px;
 }
 
-.icon {
+.section_icons {
+  display: flex;
+  gap: 8px;
+}
+
+.section_icons>img {
   width: 20px;
   height: 20px;
   color: rgb(212,124,130);
