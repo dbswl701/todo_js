@@ -18,11 +18,11 @@ function saveLocalStorage() {
 }
 
 // todo 처음 생성해서 배열에 저장하는 함수 -> 처음에 생성하면 무조건 checked 는 false
-function add_todo(text2) {
-  console.log(text2);
+function add_todo(text) {
+  console.log(text);
   console.log(todos); 
   if (todos === null) todos = [];
-  todos.push({text: text2, checked: false }) // 전역에 전역변수로 let todos = []; 이렇게 선언 및 초기화 해줬는데 왜 출력하면 null 이 나오지...?!?!
+  todos.push({text, checked: false }) // 전역에 전역변수로 let todos = []; 이렇게 선언 및 초기화 해줬는데 왜 출력하면 null 이 나오지...?!?!
   console.log($main.children);
   console.log(Array.from($main.children));
   // localStorage에 저장하는 함수
@@ -42,6 +42,12 @@ function delete_todo(section) {
   const child_index = Array.from($main.children).indexOf(section);
   console.log(child_index);
   todos.splice(child_index, 1);
+  saveLocalStorage();
+}
+
+function modify_todo(section, text) {
+  const child_index = Array.from($main.children).indexOf(section);
+  todos[child_index].text = text;
   saveLocalStorage();
 }
 
@@ -121,6 +127,7 @@ function print(text, checked) {
 
     // 입력 재할당
     $p.textContent = modify;
+    modify_todo($section, modify);
   })
 
   // delete icon 눌렀을 떄 -> 해당 section 삭제
