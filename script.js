@@ -4,6 +4,7 @@
 
 // querySelector vs getElementByTagName
 
+// 아 일일이 class 주는거 귀찮은데 그냥 querySelector 쓰고 그냥 main>section>button 이렇게 쓰면 안되나?
 const $add_btn = document.querySelector("header > button"); // 투두 추가 버튼
 const $main = document.querySelector("main"); // 생성한 투두(section)를 붙일 main
 
@@ -52,6 +53,21 @@ $add_btn.addEventListener('click', () => {
   $icon_write.setAttribute('src', 'assets/icons/pencil.svg');
   $icon_delete.setAttribute('src', 'assets/icons/delete.svg');
 
+  // write icon 눌렀을 떄
+  $icon_write.addEventListener('click', () => {
+    // prompt 창 열어서 입력 다시 받기
+    const modify = prompt('TODO 수정하기');
+
+    // 입력 재할당
+    $p.textContent = modify;
+  })
+
+  // delete icon 눌렀을 떄 -> 해당 section 삭제
+  $icon_delete.addEventListener('click', () => {
+    // 해당 section과 main의 연결 끊기
+    $main.removeChild($section);
+  })
+
   // img 각각 section_icons에 연결
   $section_icons.appendChild($icon_write);
   $section_icons.appendChild($icon_delete);
@@ -63,5 +79,3 @@ $add_btn.addEventListener('click', () => {
   // 일단 붙여보자
   $main.appendChild($section);
 });
-
-// 아 일일이 class 주는거 귀찮은데 그냥 querySelector 쓰고 그냥 main>section>button 이렇게 쓰면 안되나?
