@@ -23,6 +23,8 @@ function add_todo(text2) {
   console.log(todos); 
   if (todos === null) todos = [];
   todos.push({text: text2, checked: false }) // 전역에 전역변수로 let todos = []; 이렇게 선언 및 초기화 해줬는데 왜 출력하면 null 이 나오지...?!?!
+  console.log($main.children);
+  console.log(Array.from($main.children));
   // localStorage에 저장하는 함수
   saveLocalStorage();
 }
@@ -36,8 +38,10 @@ function toggle_todo(section) {
 }
 
 function delete_todo(section) {
+  console.log($main.children);
   const child_index = Array.from($main.children).indexOf(section);
-  todos.splice(index, 1);
+  console.log(child_index);
+  todos.splice(child_index, 1);
   saveLocalStorage();
 }
 
@@ -122,8 +126,8 @@ function print(text, checked) {
   // delete icon 눌렀을 떄 -> 해당 section 삭제
   $icon_delete.addEventListener('click', () => {
     // 해당 section과 main의 연결 끊기
-    $main.removeChild($section);
     delete_todo($section);
+    $main.removeChild($section);
   })
 
   // img 각각 section_icons에 연결
