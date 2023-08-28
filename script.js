@@ -1,5 +1,5 @@
 // 새로운 todo 추가하기 클릭 시 (section)추가되어야함
-// write 아이콘 클릭 시 수정할 수 있어야 함 -> text가 아니라 input으로 변경?
+// write 아이콘 클릭 시 수정할 수 있어야 함 -> text가 아니라 input으로 변경? -> prompt 사용!
 // delete 아이콘 클릭 시 section 삭제
 
 // querySelector vs getElementByTagName
@@ -12,6 +12,9 @@ $add_btn.addEventListener('click', () => {
 
   // 입력 받기
   const input = prompt('새로운 TODO를 입력하세요.');
+
+  // 만약 input이 null(입력이 없다면)이면 해당 콜백함수 종료(prompt 입력 예외사항 확인)
+  if ( input === null || input === '' ) return;
 
 
   // 클릭하면 section 추가
@@ -56,7 +59,11 @@ $add_btn.addEventListener('click', () => {
   // write icon 눌렀을 떄
   $icon_write.addEventListener('click', () => {
     // prompt 창 열어서 입력 다시 받기
-    const modify = prompt('TODO 수정하기');
+    const input = $p.textContent;
+    let modify = prompt('TODO 수정하기', input);
+
+    // prompt 입력 예외사항 확인
+    if (modify === null || modify === '') modify = input;
 
     // 입력 재할당
     $p.textContent = modify;
